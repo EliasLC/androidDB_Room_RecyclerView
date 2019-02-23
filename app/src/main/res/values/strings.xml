@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">ListaProductos</string>
+    <string name="app_name">Lista De Productos</string>
+    <string name="tv_products">Productos</string>
+    <string name="mi_addProducts">Agregar Productos</string>
 </resources>
