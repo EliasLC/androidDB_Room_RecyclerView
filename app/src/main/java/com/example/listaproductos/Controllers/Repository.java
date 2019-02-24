@@ -32,8 +32,14 @@ public class Repository {
         return true;
     }
 
-    public void deleteProduct(int id){
-        productoDAO.deleteProducto(id);
+    public boolean deleteProduct(int id){
+        boolean res = true;
+        try {
+            productoDAO.deleteProducto(id);
+        } catch (Exception e){
+            res = false;
+        }
+        return res;
     }
 
     public void updateProduct(Producto producto){

@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.listaproductos.Model.Producto;
+import com.example.listaproductos.Model.ProductoDelete;
 import com.example.listaproductos.R;
 
 import java.util.List;
@@ -27,16 +28,23 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Adapte
 
         public TextView tvName,tvPrice, tvStock;
         public ImageButton ivMenu;
-
+        private int index;
+        private int proId;
 
         public AdapterViewHolder(@NonNull View itemView) {
             super(itemView);
+
             tvName = itemView.findViewById(R.id.card_tvName);
             tvPrice = itemView.findViewById(R.id.card_tvPrice);
             tvStock = itemView.findViewById(R.id.card_tvStock);
             ivMenu = itemView.findViewById(R.id.card_popup_menu);
         }
 
+        public void setProId(int id){ this.proId = id; }
+        public int getProId() { return proId; }
+
+        public void setIndex(int index){ this.index= index; }
+        public int getIndex(){ return index; }
     }
 
     public RecyclerAdapter(List<Producto> productos, Application application){
@@ -63,11 +71,13 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Adapte
         aux = adapterViewHolder.tvPrice.getText().toString();
         adapterViewHolder.tvPrice.setText(aux+" "+String.valueOf(producto.getPro_precio()));
 
+        adapterViewHolder.setIndex(i);
+        adapterViewHolder.setProId(producto.getPro_Id());
+
         //Agregar menu a imagebutton
         adapterViewHolder.ivMenu.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-
                 PopupMenu popupMenu = new PopupMenu(mApplication.getApplicationContext(), adapterViewHolder.ivMenu);
                 popupMenu.inflate(R.menu.cardview_menu);
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener(){
@@ -81,13 +91,15 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Adapte
                                 Intent intent = new Intent(mApplication.getApplicationContext(), UpdateProducts.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
                                 intent = intent.putExtra("product", producto);
-                                mApplication.startActivity(intent);
+                                mApplication.getApplicationContext().startActivity(intent);
                                 //Toast.makeText(mAplication.getApplicationContext(), "Modificar", Toast.LENGTH_SHORT).show();
                                 return true;
 
 
                             case R.id.cvm_delete:
-                                Toast.makeText(mApplication.getApplicationContext(), "Eliminar", Toast.LENGTH_SHORT).show();
+                                mProductos.remove(adapterViewHolder.getIndex());
+                                notifyItemRemoved(adapterViewHolder.getIndex());
+                                new ProductoDelete(adapterViewHolder.getProId(), mApplication).execute();
                                 return true;
 
                             default: return false;
