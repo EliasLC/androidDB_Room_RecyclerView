@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager mLayoutManager;
     private Application mAplication;
     private List<Producto> mListaProductos;
-    private int mEstadoCambio;
+    private int mAddActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         mAplication = this.getApplication();
         mListaProductos = new ArrayList<>();
         mLayoutManager = new LinearLayoutManager(this);
-        mEstadoCambio = 0;
+        mAddActivity = 1;
 
         mRecyclerView = findViewById(R.id.main_recyclerProductos);
         mRecyclerView.setHasFixedSize(true);
@@ -45,23 +45,8 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
 
-
-        new RecyclerAsync().execute();
     }
 
-
-    @Override
-    protected void onResume(){
-        super.onResume();
-        switch (mEstadoCambio){
-
-            case 1:
-                new RecyclerAsync().execute();
-                //Toast.makeText(this, "Se agrego un nuevo",Toast.LENGTH_SHORT).show();
-                mEstadoCambio = 0;
-                break;
-        }
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
@@ -77,8 +62,7 @@ public class MainActivity extends AppCompatActivity {
         switch(item.getItemId()){
             case R.id.mi_addProducts:
                 Intent intent = new Intent(getApplicationContext(), AddProducts.class );
-                mEstadoCambio=1;
-                startActivity(intent);
+                startActivityForResult(intent, mAddActivity);
                 return true;
 
             default: return false;
@@ -86,6 +70,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        /*AddActivityResult*/
+        if(requestCode == mAddActivity && resultCode == RESULT_OK){
+                new RecyclerAsync().execute();
+        }
+
+    }
 
     private class RecyclerAsync extends AsyncTask<Void, Void, List<Producto>> {
 
@@ -111,22 +103,7 @@ public class MainActivity extends AppCompatActivity {
                     mListaProductos.add(productos.get(i));
                     mAdapter.notifyItemInserted(i);
                 }
-
             }
-
-            /*Producto pro = new Producto();
-            pro.setPro_Nombre("Leche");
-            pro.setPro_NumStock(23);
-            pro.setPro_precio(18);
-            Producto pr2 = new Producto();
-            pr2.setPro_Nombre("Carlos V");
-            pr2.setPro_NumStock(23);
-            pr2.setPro_precio(18);
-            mListaProductos.add(pro);
-            mAdapter.notifyItemInserted(0);
-            mListaProductos.add(pr2);
-            mAdapter.notifyItemInserted(1);
-            */
         }
 
     }

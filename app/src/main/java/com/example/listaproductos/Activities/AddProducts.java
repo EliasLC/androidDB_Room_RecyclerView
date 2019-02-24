@@ -1,6 +1,7 @@
 package com.example.listaproductos.Activities;
 
 import android.app.Application;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -90,15 +91,24 @@ public class AddProducts extends AppCompatActivity {
         protected void onPostExecute(Boolean result){
 
             mProgressBar.setVisibility(View.INVISIBLE);
+
             String mensaje = "Producto agregado";
+            int resultado = RESULT_OK;
 
             if(!result){
                 mensaje = "No se pudo agregar el producto";
+                resultado = RESULT_FIRST_USER;
             }
             final Button btnAgregar = findViewById(R.id.agregar_btnAgregar);
             final Button btnCancelar = findViewById(R.id.agregar_btnCancelar);
             btnAgregar.setActivated(true);
             btnCancelar.setActivated(true);
+
+            //Asignar la respuesta para la activitie padre
+            Intent resultIntent = new Intent();
+            //resultIntent.putExtra("result",respuestaIntent);
+            setResult(resultado, resultIntent);
+
             Toast.makeText(mApplication.getApplicationContext(),mensaje, Toast.LENGTH_SHORT).show();
         }
     }
