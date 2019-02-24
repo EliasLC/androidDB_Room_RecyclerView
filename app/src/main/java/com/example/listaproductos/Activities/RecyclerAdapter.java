@@ -56,7 +56,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Adapte
     //Obtener los datos de la lista y pasarlos a cada cardview
     @Override
     public void onBindViewHolder(@NonNull final AdapterViewHolder adapterViewHolder, int i) {
-        Producto producto = mProductos.get(i);
+        final Producto producto = mProductos.get(i);
         adapterViewHolder.tvName.setText(producto.getPro_Nombre());
         String aux = adapterViewHolder.tvStock.getText().toString();
         adapterViewHolder.tvStock.setText(aux+" "+String.valueOf(producto.getPro_NumStock()));
@@ -80,6 +80,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Adapte
                             case R.id.cvm_update:
                                 Intent intent = new Intent(mApplication.getApplicationContext(), UpdateProducts.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+                                intent = intent.putExtra("product", producto);
                                 mApplication.startActivity(intent);
                                 //Toast.makeText(mAplication.getApplicationContext(), "Modificar", Toast.LENGTH_SHORT).show();
                                 return true;

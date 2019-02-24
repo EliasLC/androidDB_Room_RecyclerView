@@ -3,12 +3,14 @@ package com.example.listaproductos.Model;
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
 @Entity
-public class Producto {
+public class Producto implements Parcelable {
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     private int pro_Id;
 
     @ColumnInfo(name = "pro_Nombre")
@@ -34,6 +36,10 @@ public class Producto {
 
     public Producto(){
 
+    }
+
+    public Producto(Parcel in){
+        readFromParcel(in);
     }
 
     public int getPro_Id() {
@@ -86,4 +92,47 @@ public class Producto {
     public void setPro_Fecha(@NonNull String pro_Fecha) {
         this.pro_Fecha = pro_Fecha;
     }
+
+    /*================================================
+        Parcelable Stuff
+    ================================================== */
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    //Escribir todos los datos en el objeto al recuperarlo
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(pro_Id);
+        dest.writeString(pro_Nombre);
+        dest.writeString(pro_CodigoBarras);
+        dest.writeInt(pro_NumStock);
+        dest.writeDouble(pro_precio);
+        dest.writeString(pro_Fecha);
+    }
+
+    //Leer datos recividos
+    private void readFromParcel(Parcel in) {
+        pro_Id = in.readInt();
+        pro_Nombre = "" +in.readString();
+        pro_CodigoBarras = ""+ in.readString();
+        pro_NumStock = in.readInt();
+        pro_precio = in.readDouble();
+        pro_Fecha = ""+ in.readString();
+    }
+
+    public static final Parcelable.Creator<Producto> CREATOR =
+            new Parcelable.Creator<Producto>(){
+                public Producto createFromParcel(Parcel in){
+                    return new Producto(in);
+                }
+
+                @Override
+                public Producto[] newArray(int size) {
+                    return new Producto[0];
+                }
+            };
+
 }

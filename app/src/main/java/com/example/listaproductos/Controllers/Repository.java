@@ -16,13 +16,20 @@ public class Repository {
         productoDAO = productoDatabase.productoDAO();
     }
 
-    public void insertProduct(String nombre, String CodigoBarras, int numStock, double precio){
+    public boolean insertProduct(String nombre, String CodigoBarras, String fecha, int numStock, double precio){
+        boolean res = true;
         Producto producto = new Producto();
         producto.setPro_Nombre(nombre);
         producto.setPro_CodigoBarras(CodigoBarras);
         producto.setPro_NumStock(numStock);
         producto.setPro_precio(precio);
-        productoDAO.insertProducto(producto);
+        producto.setPro_Fecha(fecha);
+        try {
+            productoDAO.insertProducto(producto);
+        } catch(Exception e){
+            res=false;
+        }
+        return true;
     }
 
     public void deleteProduct(int id){

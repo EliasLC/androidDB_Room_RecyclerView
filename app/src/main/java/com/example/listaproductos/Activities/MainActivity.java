@@ -56,7 +56,8 @@ public class MainActivity extends AppCompatActivity {
         switch (mEstadoCambio){
 
             case 1:
-                Toast.makeText(this, "Se agrego un nuevo",Toast.LENGTH_SHORT).show();
+                new RecyclerAsync().execute();
+                //Toast.makeText(this, "Se agrego un nuevo",Toast.LENGTH_SHORT).show();
                 mEstadoCambio = 0;
                 break;
         }
@@ -97,18 +98,35 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected List<Producto> doInBackground(Void... voids) {
             Repository repo = new Repository(mAplication);
+
             return repo.getProducts();
         }
 
         @Override
         protected void onPostExecute(List<Producto> productos){
-            Producto pro = new Producto();
+
+            if(mListaProductos.size()<productos.size()){
+
+                for(int i = mListaProductos.size(); i<productos.size(); i++){
+                    mListaProductos.add(productos.get(i));
+                    mAdapter.notifyItemInserted(i);
+                }
+
+            }
+
+            /*Producto pro = new Producto();
             pro.setPro_Nombre("Leche");
             pro.setPro_NumStock(23);
             pro.setPro_precio(18);
-            productos.add(pro);
+            Producto pr2 = new Producto();
+            pr2.setPro_Nombre("Carlos V");
+            pr2.setPro_NumStock(23);
+            pr2.setPro_precio(18);
             mListaProductos.add(pro);
             mAdapter.notifyItemInserted(0);
+            mListaProductos.add(pr2);
+            mAdapter.notifyItemInserted(1);
+            */
         }
 
     }
