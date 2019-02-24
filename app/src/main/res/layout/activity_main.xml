@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".Activities.MainActivity">
 
     <TextView
         android:id="@+id/textView2"
@@ -13,14 +13,16 @@
         android:layout_marginTop="24dp"
         android:text="@string/tv_products"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/recyclerView4"
+        app:layout_constraintBottom_toTopOf="@+id/main_recyclerProductos"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.7" />
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerView4"
+        android:id="@+id/main_recyclerProductos"
+        android:padding="4dp"
+        android:scrollbars="vertical"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="16dp"

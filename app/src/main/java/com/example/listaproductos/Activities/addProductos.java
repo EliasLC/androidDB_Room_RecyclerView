@@ -1,7 +1,9 @@
-package com.example.listaproductos;
+package com.example.listaproductos.Activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.example.listaproductos.R;
 
 public class addProductos extends AppCompatActivity {
 

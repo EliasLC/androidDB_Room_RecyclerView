@@ -2,4 +2,16 @@
     <string name="app_name">Lista De Productos</string>
     <string name="tv_products">Productos</string>
     <string name="mi_addProducts">Agregar Productos</string>
+    <string name="et_name">Nombre</string>
+    <string name="et_code">Codigo de barras</string>
+    <string name="et_num">Numero en Stock</string>
+    <string name="et_type">Precio</string>
+    <string name="et_cdate">Fecha de Caducidad</string>
+    <string name="btn_add">Agregar</string>
+    <string name="btn_cancel">Cancelar</string>
+    <string name="cvm_itUpdate">Modificar</string>
+    <string name="cvm_itDelete">Eliminar</string>
+    <string name="card_Stock">Stock:</string>
+    <string name="card_Price">$</string>
+    <string name="card_Description">Producto</string>
 </resources>

@@ -4,105 +4,106 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".addProductos" >
+    tools:context=".Activities.addProductos" >
 
     <EditText
-        android:id="@+id/editText13"
+        android:id="@+id/agregar_etNombre"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Name"
-        app:layout_constraintBottom_toTopOf="@+id/editText14"
+        android:hint="@string/et_name"
+        app:layout_constraintBottom_toTopOf="@+id/agregar_etCodigoBarras"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.37" />
 
     <EditText
-        android:id="@+id/editText14"
+        android:id="@+id/agregar_etCodigoBarras"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Name"
-        app:layout_constraintBottom_toTopOf="@+id/editText15"
+        android:hint="@string/et_code"
+        app:layout_constraintBottom_toTopOf="@+id/agregar_etNumStock"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText13" />
+        app:layout_constraintTop_toBottomOf="@+id/agregar_etNombre" />
 
     <EditText
-        android:id="@+id/editText15"
+        android:id="@+id/agregar_etNumStock"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Name"
-        app:layout_constraintBottom_toTopOf="@+id/editText16"
+        android:hint="@string/et_num"
+        app:layout_constraintBottom_toTopOf="@+id/agregar_etPrecio"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText14" />
+        app:layout_constraintTop_toBottomOf="@+id/agregar_etCodigoBarras" />
 
     <EditText
-        android:id="@+id/editText16"
+        android:id="@+id/agregar_etPrecio"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Name"
-        app:layout_constraintBottom_toTopOf="@+id/editText17"
+        android:hint="@string/et_type"
+        app:layout_constraintBottom_toTopOf="@+id/agregar_etFechaCaducidad"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText15" />
+        app:layout_constraintTop_toBottomOf="@+id/agregar_etNumStock" />
 
     <EditText
-        android:id="@+id/editText17"
+        android:id="@+id/agregar_etFechaCaducidad"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Name"
-        app:layout_constraintBottom_toTopOf="@+id/button6"
+        android:hint="@string/et_cdate"
+        app:layout_constraintBottom_toTopOf="@+id/agregar_btnCancelar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText16" />
+        app:layout_constraintTop_toBottomOf="@+id/agregar_etPrecio" />
 
     <Button
-        android:id="@+id/button6"
+        android:id="@+id/agregar_btnCancelar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="32dp"
-        android:text="Button"
+        android:text="@string/btn_cancel"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/button8"
-        app:layout_constraintTop_toBottomOf="@+id/editText17" />
+        app:layout_constraintStart_toEndOf="@+id/agregar_btnAgregar"
+        app:layout_constraintTop_toBottomOf="@+id/agregar_etFechaCaducidad" />
 
     <Button
-        android:id="@+id/button8"
+        android:id="@+id/agregar_btnAgregar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:text="Button"
+        android:text="@string/btn_add"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button6"
+        app:layout_constraintEnd_toStartOf="@+id/agregar_btnCancelar"
         app:layout_constraintHorizontal_bias="0.44"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText17"
+        app:layout_constraintTop_toBottomOf="@+id/agregar_etFechaCaducidad"
         app:layout_constraintVertical_bias="0.503" />
 
     <ProgressBar
-        android:id="@+id/progressBar"
+        android:id="@+id/agregar_progress"
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="16dp"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.487"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button6"
+        app:layout_constraintTop_toBottomOf="@+id/agregar_btnCancelar"
         app:layout_constraintVertical_bias="0.41000003" />
 
 </android.support.constraint.ConstraintLayout>

@@ -25,7 +25,7 @@ public class Producto {
 
     @ColumnInfo(name = "pro_Precio")
     @NonNull
-    private int pro_precio;
+    private double pro_precio;
 
     @ColumnInfo(name = "pro_Fecha")
     @NonNull
@@ -70,11 +70,11 @@ public class Producto {
         this.pro_NumStock = pro_NumStock;
     }
 
-    public int getPro_precio() {
+    public double getPro_precio() {
         return pro_precio;
     }
 
-    public void setPro_precio(int pro_precio) {
+    public void setPro_precio(double pro_precio) {
         this.pro_precio = pro_precio;
     }
 
