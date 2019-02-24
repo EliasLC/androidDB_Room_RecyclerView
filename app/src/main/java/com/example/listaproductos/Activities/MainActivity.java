@@ -1,7 +1,6 @@
 package com.example.listaproductos.Activities;
 
 import android.app.Application;
-import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -11,10 +10,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
+
 import com.example.listaproductos.Controllers.Repository;
 import com.example.listaproductos.Model.Producto;
 import com.example.listaproductos.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -23,15 +25,41 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private Application mAplication;
+    private List<Producto> mListaProductos;
+    private int mEstadoCambio;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mAplication = this.getApplication();
-
+        mListaProductos = new ArrayList<>();
         mLayoutManager = new LinearLayoutManager(this);
+        mEstadoCambio = 0;
+
+        mRecyclerView = findViewById(R.id.main_recyclerProductos);
+        mRecyclerView.setHasFixedSize(true);
+
+        mAdapter = new RecyclerAdapter(mListaProductos,mAplication);
+
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setAdapter(mAdapter);
+
+
         new RecyclerAsync().execute();
+    }
+
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        switch (mEstadoCambio){
+
+            case 1:
+                Toast.makeText(this, "Se agrego un nuevo",Toast.LENGTH_SHORT).show();
+                mEstadoCambio = 0;
+                break;
+        }
     }
 
     @Override
@@ -47,7 +75,8 @@ public class MainActivity extends AppCompatActivity {
 
         switch(item.getItemId()){
             case R.id.mi_addProducts:
-                Intent intent = new Intent(getApplicationContext(), addProductos.class );
+                Intent intent = new Intent(getApplicationContext(), AddProducts.class );
+                mEstadoCambio=1;
                 startActivity(intent);
                 return true;
 
@@ -78,13 +107,8 @@ public class MainActivity extends AppCompatActivity {
             pro.setPro_NumStock(23);
             pro.setPro_precio(18);
             productos.add(pro);
-            mRecyclerView = findViewById(R.id.main_recyclerProductos);
-            mRecyclerView.setHasFixedSize(true);
-
-            mAdapter = new RecyclerAdapter(productos,mAplication);
-
-            mRecyclerView.setLayoutManager(mLayoutManager);
-            mRecyclerView.setAdapter(mAdapter);
+            mListaProductos.add(pro);
+            mAdapter.notifyItemInserted(0);
         }
 
     }

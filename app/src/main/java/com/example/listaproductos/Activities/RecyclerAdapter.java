@@ -1,13 +1,14 @@
 package com.example.listaproductos.Activities;
 
 import android.app.Application;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.ImageButton;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,12 +21,12 @@ import java.util.List;
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.AdapterViewHolder> {
 
     private List<Producto> mProductos;
-    private Application mAplication;
+    private Application mApplication;
 
     public static class AdapterViewHolder extends RecyclerView.ViewHolder{
 
         public TextView tvName,tvPrice, tvStock;
-        public ImageView ivMenu;
+        public ImageButton ivMenu;
 
 
         public AdapterViewHolder(@NonNull View itemView) {
@@ -40,7 +41,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Adapte
 
     public RecyclerAdapter(List<Producto> productos, Application application){
         this.mProductos = productos;
-        this.mAplication = application;
+        this.mApplication = application;
     }
 
 
@@ -48,8 +49,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Adapte
     @Override
     public AdapterViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.main_card, viewGroup,false);
-        AdapterViewHolder evh = new AdapterViewHolder(view);
-        return evh;
+        return new AdapterViewHolder(view);
     }
 
 
@@ -63,12 +63,12 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Adapte
         aux = adapterViewHolder.tvPrice.getText().toString();
         adapterViewHolder.tvPrice.setText(aux+" "+String.valueOf(producto.getPro_precio()));
 
-        //Agregar menu a imageview
+        //Agregar menu a imagebutton
         adapterViewHolder.ivMenu.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
 
-                PopupMenu popupMenu = new PopupMenu(mAplication.getApplicationContext(), adapterViewHolder.ivMenu);
+                PopupMenu popupMenu = new PopupMenu(mApplication.getApplicationContext(), adapterViewHolder.ivMenu);
                 popupMenu.inflate(R.menu.cardview_menu);
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener(){
 
@@ -78,12 +78,15 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Adapte
                         switch(item.getItemId()){
 
                             case R.id.cvm_update:
-                                Toast.makeText(mAplication.getApplicationContext(), "Modificar", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(mApplication.getApplicationContext(), UpdateProducts.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+                                mApplication.startActivity(intent);
+                                //Toast.makeText(mAplication.getApplicationContext(), "Modificar", Toast.LENGTH_SHORT).show();
                                 return true;
 
 
                             case R.id.cvm_delete:
-                                Toast.makeText(mAplication.getApplicationContext(), "Eliminar", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(mApplication.getApplicationContext(), "Eliminar", Toast.LENGTH_SHORT).show();
                                 return true;
 
                             default: return false;

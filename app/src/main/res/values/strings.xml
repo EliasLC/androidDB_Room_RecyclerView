@@ -14,4 +14,5 @@
     <string name="card_Stock">Stock:</string>
     <string name="card_Price">$</string>
     <string name="card_Description">Producto</string>
+    <string name="update_Product">Modificar</string>
 </resources>

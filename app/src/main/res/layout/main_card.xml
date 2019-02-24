@@ -68,7 +68,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@string/et_type"
-            android:background="@null"
+
+            android:background="#fff"
             android:src="@drawable/more"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
