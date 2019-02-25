@@ -1,2 +1,2 @@
 # androidDB_Room_RecyclerView
-Just a average Room implementation.
+Just an average Room implementation.
