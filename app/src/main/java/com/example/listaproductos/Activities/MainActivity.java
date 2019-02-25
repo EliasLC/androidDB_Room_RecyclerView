@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
 
-        new RecyclerAsync().execute();
+       new CleanAsync().execute();
     }
 
     @Override
@@ -139,6 +139,15 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+    }
+
+    private class CleanAsync extends AsyncTask<Void, Void, Void>{
+        @Override
+        protected Void doInBackground(Void... voids) {
+            Repository repository = new Repository(mAplication);
+            repository.delalteAll();
+            return null;
+        }
     }
 
 }
