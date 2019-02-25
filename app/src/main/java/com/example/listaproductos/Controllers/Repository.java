@@ -32,6 +32,10 @@ public class Repository {
         return true;
     }
 
+    public Producto getProduct(int id){
+        return  productoDAO.getProducto(id);
+    }
+
     public boolean deleteProduct(int id){
         boolean res = true;
         try {
@@ -42,8 +46,14 @@ public class Repository {
         return res;
     }
 
-    public void updateProduct(Producto producto){
-        productoDAO.updateProducto(producto);
+    public boolean updateProduct(Producto producto){
+        boolean res = true;
+        try {
+            productoDAO.updateProducto(producto);
+        } catch(Exception e){
+            res = false;
+        }
+        return res;
     }
 
     public List<Producto> getProducts(){

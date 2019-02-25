@@ -13,6 +13,9 @@ public interface ProductoDAO {
     @Insert
     void insertProducto(Producto producto);
 
+    @Query("SELECT * FROM Producto WHERE pro_Id =:Id")
+    Producto getProducto(int Id);
+
     @Query("DELETE FROM Producto WHERE pro_Id =:Id")
     void deleteProducto(int Id);
 

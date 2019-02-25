@@ -48,6 +48,13 @@ public class MainActivity extends AppCompatActivity {
         new RecyclerAsync().execute();
     }
 
+    @Override
+    public void onResume(){
+        super.onResume();
+        if(RecyclerAdapter.getUpdateAdapter().getUpdateStatus()==1){
+            new UpdateAsync().execute();
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
@@ -104,6 +111,31 @@ public class MainActivity extends AppCompatActivity {
                     mListaProductos.add(productos.get(i));
                     mAdapter.notifyItemInserted(i);
                 }
+            }
+        }
+
+    }
+
+    private class UpdateAsync extends AsyncTask<Void, Void, Producto>{
+
+        @Override
+        protected Producto doInBackground(Void... voids) {
+            Repository repository = new Repository(mAplication);
+            return repository.getProduct(RecyclerAdapter.getUpdateAdapter().getUpdateItemId());
+        }
+
+        @Override
+        protected void onPostExecute(Producto result){
+
+            if(result!= null){
+                int index = RecyclerAdapter.getUpdateAdapter().getUpdateItemIndex();
+                mListaProductos.get(index).setPro_Nombre(result.getPro_Nombre());
+                mListaProductos.get(index).setPro_CodigoBarras(result.getPro_CodigoBarras());
+                mListaProductos.get(index).setPro_Fecha(result.getPro_Fecha());
+                mListaProductos.get(index).setPro_precio(result.getPro_precio());
+                mListaProductos.get(index).setPro_NumStock(result.getPro_NumStock());
+                mAdapter.notifyItemChanged(index);
+                RecyclerAdapter.getUpdateAdapter().setAdapter();
             }
         }
 

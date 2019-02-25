@@ -1,7 +1,10 @@
 package com.example.listaproductos.Activities;
 
 import android.app.Application;
+import android.arch.persistence.room.Update;
 import android.content.Intent;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -19,10 +22,13 @@ import com.example.listaproductos.R;
 
 import java.util.List;
 
-public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.AdapterViewHolder> {
+public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.AdapterViewHolder>{
 
     private List<Producto> mProductos;
     private Application mApplication;
+    private static UpdateAdapter mUpdateAdapter;
+
+
 
     public static class AdapterViewHolder extends RecyclerView.ViewHolder{
 
@@ -50,8 +56,15 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Adapte
     public RecyclerAdapter(List<Producto> productos, Application application){
         this.mProductos = productos;
         this.mApplication = application;
+
     }
 
+    public static UpdateAdapter getUpdateAdapter(){
+        if(mUpdateAdapter == null){
+            mUpdateAdapter = new UpdateAdapter();
+        }
+        return mUpdateAdapter;
+    }
 
     @NonNull
     @Override
@@ -66,9 +79,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Adapte
     public void onBindViewHolder(@NonNull final AdapterViewHolder adapterViewHolder, int i) {
         final Producto producto = mProductos.get(i);
         adapterViewHolder.tvName.setText(producto.getPro_Nombre());
-        String aux = adapterViewHolder.tvStock.getText().toString();
+        String aux = "Stock";
         adapterViewHolder.tvStock.setText(aux+" "+String.valueOf(producto.getPro_NumStock()));
-        aux = adapterViewHolder.tvPrice.getText().toString();
+        aux = "$";
         adapterViewHolder.tvPrice.setText(aux+" "+String.valueOf(producto.getPro_precio()));
 
         adapterViewHolder.setIndex(i);
@@ -90,7 +103,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Adapte
                             case R.id.cvm_update:
                                 Intent intent = new Intent(mApplication.getApplicationContext(), UpdateProducts.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
-                                intent = intent.putExtra("product", producto);
+                                intent.putExtra("product", producto);
+                                intent.putExtra("index", adapterViewHolder.getIndex());
                                 mApplication.getApplicationContext().startActivity(intent);
                                 //Toast.makeText(mAplication.getApplicationContext(), "Modificar", Toast.LENGTH_SHORT).show();
                                 return true;
@@ -120,7 +134,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Adapte
     public int getItemCount() {
         return mProductos.size();
     }
-
 
 
 }
