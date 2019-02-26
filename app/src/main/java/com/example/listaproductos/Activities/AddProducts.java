@@ -12,22 +12,33 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.listaproductos.Controllers.ProductViewModel;
 import com.example.listaproductos.Controllers.Repository;
+import com.example.listaproductos.Model.Producto;
 import com.example.listaproductos.R;
 
 public class AddProducts extends AppCompatActivity {
 
     private Application mApplication;
     private ProgressBar mProgressBar;
+    private EditText etName, etCode, etDate, etStock, etPrice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTitle("Agregar Producto");
         setContentView(R.layout.activity_add_productos);
+
+        etName = findViewById(R.id.agregar_etNombre);
+        etCode = findViewById(R.id.agregar_etCodigoBarras);
+        etDate = findViewById(R.id.agregar_etFechaCaducidad);
+        etStock = findViewById(R.id.agregar_etNumStock);
+        etPrice = findViewById(R.id.agregar_etPrecio);
+
         mApplication = this.getApplication();
         mProgressBar = findViewById(R.id.agregar_progress);
         addProduct();
-        backToHome();
+
     }
 
 
@@ -39,28 +50,24 @@ public class AddProducts extends AppCompatActivity {
         btnAgregar.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                btnAgregar.setActivated(false);
-                final Button btnCancelar = findViewById(R.id.agregar_btnCancelar);
-                btnCancelar.setActivated(false);
-                new AgregarAsyncTask().execute();
-            }
-        });
-    }
+                Producto producto = new Producto();
+                producto.setPro_Nombre(etName.getText().toString());
+                producto.setPro_CodigoBarras(etCode.getText().toString());
+                producto.setPro_NumStock(Integer.valueOf(etStock.getText().toString()));
+                producto.setPro_precio(Double.valueOf(etPrice.getText().toString()));
+                producto.setPro_Fecha(etDate.getText().toString());
 
-    public void backToHome(){
-        Button btnCancelar = findViewById(R.id.agregar_btnCancelar);
-        btnCancelar.setOnClickListener(new View.OnClickListener(){
-
-            @Override
-            public void onClick(View v) {
+                Intent resultIntent = new Intent();
+                resultIntent.putExtra("EXTRA_REPLY", producto);
+                setResult(RESULT_OK, resultIntent);
                 finish();
             }
-
         });
     }
 
 
-    private class AgregarAsyncTask extends AsyncTask<Void, Void, Boolean>{
+
+   /* private class AgregarAsyncTask extends AsyncTask<Void, Void, Boolean>{
 
         @Override
         protected void onPreExecute(){
@@ -69,22 +76,7 @@ public class AddProducts extends AppCompatActivity {
 
         @Override
         protected Boolean doInBackground(Void... voids) {
-
-            Repository repository = new Repository(mApplication);
-            EditText etName = findViewById(R.id.agregar_etNombre);
-            EditText etCode = findViewById(R.id.agregar_etCodigoBarras);
-            EditText etDate = findViewById(R.id.agregar_etFechaCaducidad);
-            EditText etStock = findViewById(R.id.agregar_etNumStock);
-            EditText etPrice = findViewById(R.id.agregar_etPrecio);
-
-            return repository.insertProduct(
-                    etName.getText().toString(),
-                    etCode.getText().toString(),
-                    etDate.getText().toString(),
-                    Integer.valueOf(etStock.getText().toString()),
-                    Double.valueOf(etPrice.getText().toString())
-            );
-
+            return null;
         }
 
         @Override
@@ -100,9 +92,7 @@ public class AddProducts extends AppCompatActivity {
                 resultado = RESULT_FIRST_USER;
             }
             final Button btnAgregar = findViewById(R.id.agregar_btnAgregar);
-            final Button btnCancelar = findViewById(R.id.agregar_btnCancelar);
             btnAgregar.setActivated(true);
-            btnCancelar.setActivated(true);
 
             //Asignar la respuesta para la activitie padre
             Intent resultIntent = new Intent();
@@ -111,6 +101,6 @@ public class AddProducts extends AppCompatActivity {
 
             Toast.makeText(mApplication.getApplicationContext(),mensaje, Toast.LENGTH_SHORT).show();
         }
-    }
+    }*/
 
 }

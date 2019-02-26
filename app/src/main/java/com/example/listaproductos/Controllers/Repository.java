@@ -1,34 +1,34 @@
 package com.example.listaproductos.Controllers;
 
 import android.app.Application;
+import android.arch.lifecycle.LiveData;
+import android.os.AsyncTask;
+import android.provider.ContactsContract;
+import android.widget.Button;
+import android.widget.Toast;
+
 import com.example.listaproductos.Model.Producto;
 import com.example.listaproductos.Model.ProductoDAO;
 import com.example.listaproductos.Model.ProductoDatabase;
 
+import java.net.PortUnreachableException;
 import java.util.List;
 
 public class Repository {
 
     private ProductoDAO productoDAO;
+    private LiveData<List<Producto>> mAllProducts;
+    private Application mApplication;
 
     public Repository(Application application){
         ProductoDatabase productoDatabase = ProductoDatabase.getInstance(application);
         productoDAO = productoDatabase.productoDAO();
+        mAllProducts = productoDAO.getProductos();
+        this.mApplication = application;
     }
 
-    public boolean insertProduct(String nombre, String CodigoBarras, String fecha, int numStock, double precio){
-        boolean res = true;
-        Producto producto = new Producto();
-        producto.setPro_Nombre(nombre);
-        producto.setPro_CodigoBarras(CodigoBarras);
-        producto.setPro_NumStock(numStock);
-        producto.setPro_precio(precio);
-        producto.setPro_Fecha(fecha);
-        try {
-            productoDAO.insertProducto(producto);
-        } catch(Exception e){
-            res=false;
-        }
+    public boolean insertProduct(Producto producto){
+        new InsertProducto(productoDAO, producto).execute();
         return true;
     }
 
@@ -37,31 +37,77 @@ public class Repository {
     }
 
     public boolean deleteProduct(int id){
-        boolean res = true;
-        try {
-            productoDAO.deleteProducto(id);
-        } catch (Exception e){
-            res = false;
-        }
-        return res;
+        new DeleteProducto(productoDAO,id).execute();
+        return true;
     }
 
     public boolean updateProduct(Producto producto){
-        boolean res = true;
-        try {
-            productoDAO.updateProducto(producto);
-        } catch(Exception e){
-            res = false;
-        }
-        return res;
+        new UpdateProducto(productoDAO, producto).execute();
+        return true;
     }
 
-    public List<Producto> getProducts(){
+    public LiveData<List<Producto>> getAllProducts(){
         return productoDAO.getProductos();
     }
 
     public void delalteAll(){
         productoDAO.deleteAll();
+    }
+
+    /*Insertar Producto*/
+    private static class InsertProducto extends AsyncTask<Void,Void,Void> {
+
+        private Producto producto;
+        private ProductoDAO productoDAO;
+
+        public InsertProducto(ProductoDAO productoDAO, Producto producto){
+            this.producto = producto;
+            this.productoDAO = productoDAO;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            productoDAO.insertProducto(producto);
+            return null;
+        }
+    }
+
+    /*Modificar pRODUCTO*/
+    private static class UpdateProducto extends AsyncTask<Void,Void,Void> {
+
+        private Producto producto;
+        private ProductoDAO productoDAO;
+
+        public UpdateProducto(ProductoDAO productoDAO, Producto producto){
+            this.producto = producto;
+            this.productoDAO = productoDAO;
+        }
+
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            productoDAO.updateProducto(producto);
+            return null;
+        }
+    }
+
+    /*Eliminar Producto*/
+    private static class DeleteProducto extends AsyncTask<Void,Void,Void> {
+
+        private ProductoDAO productoDAO;
+        private int productoId;
+
+        public DeleteProducto (ProductoDAO productoDAO, int productoId){
+            this.productoDAO = productoDAO;
+            this.productoId = productoId;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            productoDAO.deleteProducto(productoId);
+            return null;
+        }
+
     }
 
 }

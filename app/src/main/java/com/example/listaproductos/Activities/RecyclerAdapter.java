@@ -26,18 +26,17 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Adapte
 
     private List<Producto> mProductos;
     private Application mApplication;
-    private static UpdateAdapter mUpdateAdapter;
 
 
 
-    public static class AdapterViewHolder extends RecyclerView.ViewHolder{
+     static class AdapterViewHolder extends RecyclerView.ViewHolder{
 
-        public TextView tvName,tvPrice, tvStock;
-        public ImageButton ivMenu;
+        TextView tvName,tvPrice, tvStock;
+        ImageButton ivMenu;
         private int index;
         private int proId;
 
-        public AdapterViewHolder(@NonNull View itemView) {
+        AdapterViewHolder(@NonNull View itemView) {
             super(itemView);
 
             tvName = itemView.findViewById(R.id.card_tvName);
@@ -46,11 +45,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Adapte
             ivMenu = itemView.findViewById(R.id.card_popup_menu);
         }
 
-        public void setProId(int id){ this.proId = id; }
-        public int getProId() { return proId; }
+        void setProId(int id){ this.proId = id; }
+        int getProId() { return proId; }
 
-        public void setIndex(int index){ this.index= index; }
-        public int getIndex(){ return index; }
+        void setIndex(int index){ this.index= index; }
+        int getIndex(){ return index; }
     }
 
     public RecyclerAdapter(List<Producto> productos, Application application){
@@ -59,11 +58,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Adapte
 
     }
 
-    public static UpdateAdapter getUpdateAdapter(){
-        if(mUpdateAdapter == null){
-            mUpdateAdapter = new UpdateAdapter();
-        }
-        return mUpdateAdapter;
+    public void setProductos(List<Producto> mProductos){
+         this.mProductos = mProductos;
+         notifyDataSetChanged();
     }
 
     @NonNull
@@ -106,13 +103,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Adapte
                                 intent.putExtra("product", producto);
                                 intent.putExtra("index", adapterViewHolder.getIndex());
                                 mApplication.getApplicationContext().startActivity(intent);
-                                //Toast.makeText(mAplication.getApplicationContext(), "Modificar", Toast.LENGTH_SHORT).show();
                                 return true;
 
 
                             case R.id.cvm_delete:
-                                mProductos.remove(adapterViewHolder.getIndex());
-                                notifyItemRemoved(adapterViewHolder.getIndex());
                                 new ProductoDelete(adapterViewHolder.getProId(), mApplication).execute();
                                 return true;
 

@@ -1,5 +1,6 @@
 package com.example.listaproductos.Model;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
@@ -23,7 +24,7 @@ public interface ProductoDAO {
     void updateProducto(Producto producto);
 
     @Query("SELECT * FROM Producto")
-    List<Producto> getProductos();
+    LiveData<List<Producto>> getProductos();
 
     @Query("DELETE FROM Producto")
     void deleteAll();
